@@ -1,0 +1,21 @@
+# Tamaño del PNG del marco generado (debe coincidir con `output` de frame.py
+# para que el marco se superponga correctamente).
+output:
+  width: 196
+  height: 196
+
+# Geometría del marco.
+# - frame_width:  grosor del trazo del marco en píxeles.
+# - frame_radius: radio del bisel/redondeado de las esquinas exteriores.
+frame_width: 15
+frame_radius: 20
+
+# Gradiente que rellena el trazo del marco (silueta del rectángulo redondeado
+# hueco). Si color1 == color2, queda color plano.
+gradient:
+  color1: "#42ffFF"   # inicio
+  color2: "#2FffFF"   # fin
+  angle: 90           # 0=izq->der, 90=arriba->abajo, 180=der, 270=abajo->arriba
+
+# Ruta del PNG resultante.
+output_path: "../icons/template/frame_yellow.png"

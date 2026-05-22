@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "d200h"
+version = "0.1.0"
+description = "Bridge HID para Ulanzi D200H en Linux (sin logo flash, protocolo nativo)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "antonioleyvag" }]
+dependencies = [
+    "pyyaml>=6.0",
+    "pillow>=10.0",
+]
+
+[project.scripts]
+d200h = "d200h.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+d200h = []

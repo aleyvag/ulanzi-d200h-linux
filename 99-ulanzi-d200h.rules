@@ -1,0 +1,12 @@
+# Ulanzi D200H — acceso sin sudo a USB + ADB + /dev/hidraw*
+#
+# Instalación:
+#   sudo cp 99-ulanzi-d200h.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+#
+# Necesario para que el bridge HID nuevo (src/d200h/bridge.py) pueda abrir
+# /dev/hidraw* del D200H sin root. La regla del device USB ya propagaba
+# permisos a hidraw vía TAG+=uaccess, pero hacerlo explícito es más robusto.
+
+SUBSYSTEM=="usb",    ATTR{idVendor}=="2207",  ATTR{idProduct}=="0019",  MODE="0666", TAG+="uaccess"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="2207", ATTRS{idProduct}=="0019", MODE="0666", TAG+="uaccess"

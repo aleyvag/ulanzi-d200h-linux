@@ -1,0 +1,31 @@
+# Reglas de cambio automático de página según el foco de ventana (X11).
+#
+# El bridge mira la ventana activa y, cuando su WM_CLASS coincide con
+# `match` (substring, case-insensitive), cambia a la `page` indicada.
+# Cuando ninguna regla coincide y `default` está definido, vuelve a esa
+# página. Si no hay `default`, no se cambia.
+#
+# Para descubrir el WM_CLASS de una ventana:
+#   xprop WM_CLASS    # luego clickea la ventana objetivo
+#   ↑ devuelve algo como:  WM_CLASS(STRING) = "code", "Code"
+#   La segunda cadena ("Code") es la CLASS que usa el bridge.
+#
+# Para desactivar este feature: borrar (o renombrar) este archivo.
+
+default: home
+
+rules:
+  # === IDE / editores ===
+  - { match: "Code",        page: vscode }              # VS Code
+  - { match: "Cursor",      page: vscode }              # Cursor IDE (fork de VS Code)
+
+  # === Browsers ===  
+  - { match: "firefox",     page: links }
+  - { match: "Chromium",    page: links }
+
+  # === Multimedia ===
+  - { match: "Spotify",     page: spotify }
+  - { match: "resolve",     page: davinci_resolve_en }  # DaVinci Resolve (binario: resolve)
+
+  # === File managers ===
+  - { match: "Nautilus",    page: files }               # GNOME Files (WM_CLASS: org.gnome.Nautilus)

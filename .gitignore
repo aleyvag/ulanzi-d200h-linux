@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.eggs/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build
+build/
+dist/
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Carpetas archivadas (investigación / debug / pruebas runtime) — ya
+# cumplieron su función, se conservan como audit trail fuera del runtime.
+# (Captura USB original, scripts de RE, ZIPs extraídos, config dirs de test.)
+# Los docs en docs/developer/firmware-protocol.md y
+# docs/developer/firmware-dead-ends.md
+# referencian archivos de _archive/research/ como audit trail del proceso
+# de RE; al no estar comprometido al repo, esas referencias sólo resuelven
+# en el entorno del autor original.
+_archive/
+
+# pages
+config/pages/examples.bak
+config/pages/user*
+
+
+# Perfiles personales del software Ulanzi de Windows — el usuario los
+# pone aquí para `d200h convert`. NO comprometer al repo (contienen
+# nombres de apps, URLs, atajos personales).
+config/ulanzi_deck_profiles/
+
+# Credenciales (Spotify OAuth, …). NUNCA comprometer al repo —
+# excepto las plantillas *.example (sin valores reales).
+config/secrets/*
+!config/secrets/*.example
+
+config/focus_rules.yaml
+
+# Iconos generados al vuelo por `icon_generate:` en los YAML. Son cache
+# derivable de la spec, no source of truth.
+config/icons/*
+!config/icons/_firmware
+
+# Iconos personales del usuario para el pipeline de create_icons/ — son
+# arte propio, no se versionan. Se conserva sólo un esqueleto de ejemplo
+# (carpetas vacías con .gitkeep + template/) para que los scripts corran
+# de fábrica.
+create_icons/icons/
+!create_icons/icons/template/
+!create_icons/icons/template/.gitkeep
+!create_icons/icons/ready_icons/
+!create_icons/icons/ready_icons/.gitkeep
+!create_icons/icons/pending_icons/
+!create_icons/icons/pending_icons/00_example/
+!create_icons/icons/pending_icons/00_example/.gitkeep
+
+# Logs ad-hoc
+*.log
+
+# Dump opcional del bridge cuando se activa D200H_DUMP_ZIPS=1.
+/tmp/d200h_sent/

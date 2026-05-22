@@ -1,0 +1,31 @@
+# Lanzadores de apps (focus si están abiertas, lanzan si no — wmctrl).
+#
+# Para Flatpak, usa `flatpak run <id>` en cmd; el `match` debe coincidir
+# con el TÍTULO de la ventana (substring case-insensitive).
+
+title: "Apps"
+
+slots:
+  "0_0": {host_action: {type: app, match: "Firefox",            cmd: "firefox"},                     text: "Firefox"}
+  "0_1": {host_action: {type: app, match: "Visual Studio Code", cmd: "code"},                        text: "Code"}
+  "0_2": {host_action: {type: app, match: "Terminal",           cmd: "gnome-terminal || xterm || alacritty"}, text: "Term"}
+  "0_3": {host_action: {type: app, match: "Files",              cmd: "nautilus || thunar || dolphin"}, text: "Files"}
+  "0_4":
+    host_action:
+      type: shell
+      cmd: "gnome-screenshot -i 2>/dev/null || flameshot gui 2>/dev/null || spectacle"
+    text: "Snip"
+
+  "1_0": {host_action: {type: app,   match: "OBS",        cmd: "obs"},                          text: "OBS"}
+  "1_1": {host_action: {type: app,   match: "Calculator", cmd: "gnome-calculator || kcalc"},    text: "Calc"}
+  "1_2": {host_action: {type: close, name: firefox},                                             text: "KillFF"}
+  "1_3": {host_action: {type: app,   match: "Spotify",    cmd: "spotify"},                       text: "Spot"}
+  "1_4":
+    host_action:
+      type: shell
+      cmd: "rofi -show run 2>/dev/null || ulauncher 2>/dev/null || krunner"
+    text: "Run"
+
+  "2_0": {fw_action: page.goto, fw_param: {Page: "home"},   icon: btn_backToParent, text: "HOME"}
+  "2_1": {fw_action: page.goto, fw_param: {Page: "system"}, icon: btn_previousPage}
+  "2_2": {fw_action: page.goto, fw_param: {Page: "home"},   icon: btn_nextPage}

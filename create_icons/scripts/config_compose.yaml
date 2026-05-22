@@ -1,0 +1,14 @@
+# Carpeta con los iconos individuales que se van a combinar
+input: "../icons/pending_icons/compose"
+
+# Carpeta donde se guardan los iconos compuestos resultantes
+output_dir: "../icons/pending_icons/composed"
+
+# Tabla CSV que define las composiciones
+table: "./compositions.csv"
+
+# Tamaño del lienzo de cada composición (las coordenadas x,y del CSV son
+# absolutas respecto a este lienzo). Fondo transparente.
+canvas:
+  width: 512
+  height: 512

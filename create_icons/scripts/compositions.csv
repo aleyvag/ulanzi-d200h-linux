@@ -1,0 +1,5 @@
+output_name,icon,x,y,z
+lock_cloud.png,cloud.png,0,0,1
+lock_cloud.png,lock.png,180,180,2
+user_check.png,user.png,0,0,1
+user_check.png,check.png,300,300,2
