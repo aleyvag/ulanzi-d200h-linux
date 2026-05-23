@@ -104,13 +104,6 @@ unless combined with lowering `brightness_device`.
 
 ## 3. Pending decisions / open items
 
-- **`d200h doctor` / `repair` (proposed, not built).** Killing stray
-  bridges and `sudo` escalation deliberately live only in
-  `scripts/persist-daemon.sh`, not in the CLI. A blind `kill -9` inside
-  `install` is a footgun, and a CLI that suddenly asks for `sudo` is
-  invasive. If a "kill bridges" action from the CLI is ever wanted, its
-  natural home is a separate, explicit `d200h doctor`/`repair` — not
-  hidden inside `install`.
 - **`WantedBy=graphical-session.target` vs linger tension.** The unit uses
   `WantedBy=graphical-session.target`, but linger exists to start without a
   graphical session — they are in tension. Real headless support would
@@ -140,26 +133,4 @@ unless combined with lowering `brightness_device`.
 - **`BrightnessMessage` over HID** — change LCD brightness without going
   through ADB.
 
----
 
-## 5. Recently closed (done)
-
-- **README split** — the old 22 KB README mixed three audiences. Now a
-  short hub that routes to per-audience docs. ✅
-- **Spotify documentation** — a from-scratch guide (developer app, redirect
-  URI, scopes, OAuth) now exists at
-  [docs/user/spotify-setup.md](docs/user/spotify-setup.md). ✅
-- **docs/ separation** — firmware/RE docs are now under
-  [docs/developer/](docs/developer/) and user docs under
-  [docs/user/](docs/user/), so a regular user only reads `docs/user/`. ✅
-
-
----
-
-## PENDIENTE
-
-- Cambiar la documentacion para no usar uv
-- Verificar que funciona una configuracion iniciando de 0
-- Verificar que se pueden convertir los archivos y cargarlos y sin problemas
-- Limpiar los iconos para que no se tengan iconos protegidos.
-- Hacer exhaustivo el examples/ yaml para que tenga todas las cheetshet comandos y variantes y el usuario vea todas las posibilidades. Incluir stub

@@ -1,0 +1,32 @@
+# Auto-switch the active page based on the focused window (X11 only).
+#
+# The bridge watches the active window and, when its WM_CLASS matches
+# `match` (substring, case-insensitive), it switches to the given `page`.
+# When no rule matches and `default` is set, it returns to that page.
+# Without `default`, no automatic switch happens.
+#
+# To activate this feature: copy this file to `config/focus_rules.yaml`
+# (drop the `.example` suffix). To disable it again, delete or rename it.
+#
+# To discover a window's WM_CLASS:
+#   xprop WM_CLASS    # then click the target window
+#   ↑ returns:  WM_CLASS(STRING) = "code", "Code"
+#   The second string ("Code") is the CLASS the bridge uses.
+#
+# The rules below target the pages shipped in config/pages/examples/.
+# If you build your own pages, adjust the `page:` values to your page IDs.
+
+default: home
+
+rules:
+  # === Web browsers → page_browser ===
+  - { match: "firefox",  page: browser }
+  - { match: "Chrome",   page: browser }    # Google Chrome
+  - { match: "Chromium", page: browser }
+  - { match: "Brave",    page: browser }
+
+  # === File managers → page_files ===
+  - { match: "Nautilus", page: files }      # GNOME Files (WM_CLASS: org.gnome.Nautilus)
+  - { match: "Nemo",     page: files }      # Cinnamon
+  - { match: "Thunar",   page: files }      # XFCE
+  - { match: "Dolphin",  page: files }      # KDE
