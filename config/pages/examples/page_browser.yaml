@@ -1,0 +1,47 @@
+# BROWSER — shortcuts useful while a web browser has focus.
+#
+# This page is the auto-focus target for Chrome/Firefox/Chromium in the
+# example focus_rules.yaml: focus a browser window and the bridge switches
+# here automatically.
+#
+# `type: url` opens the URL in the user's default browser (xdg-open).
+# `type: keys` sends the shortcut to the focused window — works inside any
+# browser to switch tabs.
+
+title: "Browser"
+
+slots:
+  # Row 0: quick links.
+  "0_0": {host_action: {type: url, url: "https://www.youtube.com"},  icon_generate: {text: "You\nTube",  color: "#c44d1a"}}
+  "0_1": {host_action: {type: url, url: "https://www.google.com"},   icon_generate: {text: "Google",     color: "#c44d1a"}}
+  "0_2": {host_action: {type: url, url: "https://www.wikipedia.org"},icon_generate: {text: "Wiki\npedia",color: "#c44d1a"}}
+  "0_3": {host_action: {type: url, url: "https://github.com"},        icon_generate: {text: "GitHub",     color: "#c44d1a"}}
+  "0_4": {host_action: {type: url, url: "https://news.ycombinator.com"}, icon_generate: {text: "HN",      color: "#c44d1a"}}
+
+  # Row 1: tab and navigation hotkeys (sent to the focused window).
+  "1_0": {host_action: {type: keys, keys: "ctrl+t"},            icon_generate: {text: "New\nTab",   color: "#c44d1a"}}
+  "1_1": {host_action: {type: keys, keys: "ctrl+w"},            icon_generate: {text: "Close\nTab", color: "#c44d1a"}}
+  "1_2": {host_action: {type: keys, keys: "ctrl+shift+Tab"},     icon_generate: {text: "Prev\nTab",  color: "#c44d1a"}}
+  "1_3": {host_action: {type: keys, keys: "ctrl+Tab"},           icon_generate: {text: "Next\nTab",  color: "#c44d1a"}}
+  "1_4":
+    # Stub example: shows how the converter (or you) marks an action that
+    # has no Linux equivalent yet. Pressing opens a Tk popup describing it.
+    host_action:
+      type: stub
+      command: "browser.bookmark_current"
+      args: {}
+      hint: "No native handler. Replace with `type: keys, keys: ctrl+d` or a shell snippet."
+    icon_generate: {text: "Stub", color: "#c44d1a"}
+
+  "2_0":
+    fw_action: page.goto
+    fw_param: {Page: "apps"}
+    icon: btn_previousPage
+  "2_1":
+    fw_action: page.goto
+    fw_param: {Page: "home"}
+    icon: btn_backToParent
+  "2_2":
+    fw_action: page.goto
+    fw_param: {Page: "files"}
+    icon: btn_nextPage

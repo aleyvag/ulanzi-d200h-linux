@@ -1,44 +1,76 @@
 # =============================================================================
-# Página HOME — launchers a las páginas temáticas de los examples.
+# HOME — launchers for every example page.
 #
-# Schema y referencia completa: docs/yaml_pages_reference.md
+# Reference for every field: docs/user/pages-cheatsheet.md and pages-guide.md.
 #
 #   slots:
-#     "row_col":                      # row 0-2, col 0-4. 2_3 y 2_4 reservados.
-#       fw_action: <Action firmware>  # default: system.open (slot pasivo)
+#     "row_col":                      # row 0-2, col 0-4. 2_3 and 2_4 reserved.
+#       fw_action: <firmware action>  # default: system.open (passive slot)
 #       fw_param:  <ActionParam>
-#       icon:      <nombre del PNG>   # config/icons/ o assets/firmware-icons/
-#       text:      <texto bajo el icono>
-#       host_action: <acción que ejecuta el bridge al pulsar>
+#       icon:      <PNG name>         # from config/icons/ or firmware pack
+#       icon_generate: {text: ..., color: ...}   # render the icon at compile
+#       text:      <label under the icon>
+#       host_action: <action the bridge runs on press>
+#
+# All non-navigation slots use icon_generate so no PNG file needs to ship
+# with the repo — the bridge renders them on first run and caches them in
+# config/icons/__generated__/ (gitignored).
 # =============================================================================
 
 title: "Home"
 brightness: 60
 
 slots:
-  # Fila 0: navegación a las 4 páginas temáticas (forma recomendada,
-  # `fw_action: page.goto` — el firmware no manda IN al host, lo cambia
-  # directamente desde su lado).
-  "0_0": {fw_action: page.goto, fw_param: {Page: "hotkeys"}, icon: btn_goToPage, text: "HOTKEYS"}
-  "0_1": {fw_action: page.goto, fw_param: {Page: "media"},   icon: btn_goToPage, text: "MEDIA"}
-  "0_2": {fw_action: page.goto, fw_param: {Page: "system"},  icon: btn_goToPage, text: "SYSTEM"}
-  "0_3": {fw_action: page.goto, fw_param: {Page: "apps"},    icon: btn_goToPage, text: "APPS"}
+  # Row 0: launchers to thematic pages.
+  "0_0":
+    fw_action: page.goto
+    fw_param: {Page: "hotkeys"}
+    icon_generate: {text: "Hot\nKeys", color: "#4a4a4a"}
+  "0_1":
+    fw_action: page.goto
+    fw_param: {Page: "media"}
+    icon_generate: {text: "Media", color: "#6b2b8f"}
+  "0_2":
+    fw_action: page.goto
+    fw_param: {Page: "system"}
+    icon_generate: {text: "System", color: "#8b1a1a"}
+  "0_3":
+    fw_action: page.goto
+    fw_param: {Page: "apps"}
+    icon_generate: {text: "Apps", color: "#1a7a7a"}
+  "0_4":
+    fw_action: page.goto
+    fw_param: {Page: "browser"}
+    icon_generate: {text: "Browser", color: "#c44d1a"}
 
-  # Slot decorativo: indicador de página. La app oficial lo usa para
-  # "Page N/M"; aquí sólo muestra texto.
-  "0_4": {fw_action: page.indicator, text: "1/1"}
-
-  # Fila 1: ejemplos sueltos para mostrar host_actions variadas.
-  "1_0": {host_action: {type: notify, summary: "D200H", body: "ping"}, text: "Ping"}
-  "1_1": {host_action: {type: url, url: "https://github.com"},          text: "URL"}
+  # Row 1: more launchers + a couple of demo host_actions.
+  "1_0":
+    fw_action: page.goto
+    fw_param: {Page: "files"}
+    icon_generate: {text: "Files", color: "#2d7a2d"}
+  "1_1":
+    host_action: {type: notify, summary: "D200H", body: "ping"}
+    icon_generate: {text: "Ping", color: "#1a4f8a"}
   "1_2":
     host_action:
       type: shell
       cmd: "notify-send 'D200H' \"$(date '+%H:%M:%S')\""
-    text: "Time"
+    icon_generate: {text: "Time", color: "#1a4f8a"}
+  "1_3":
+    host_action: {type: url, url: "https://github.com"}
+    icon_generate: {text: "GitHub", color: "#1a4f8a"}
+  "1_4":
+    # Multi-action demo: notify, wait, type some text, wait, notify again.
+    host_action:
+      type: multi
+      actions:
+        - {type: notify, summary: "D200H", body: "multi step 1"}
+        - {type: delay,  ms: 300}
+        - {type: notify, summary: "D200H", body: "multi step 2"}
+    icon_generate: {text: "Multi", color: "#1a4f8a"}
 
-  # Ejemplo de host_action: page — cambia de página desde el host
-  # en lugar de pedirle al firmware que lo haga (útil si quieres
-  # encadenar una acción + cambio de página vía type: multi).
-  "1_3": {host_action: {type: page, target: "media"}, text: "→Media"}
-  "1_4": {host_action: {type: page, target: "apps"},  text: "→Apps"}
+  # Row 2: navigation. 2_3 and 2_4 are the firmware clock — DO NOT define them.
+  "2_0":
+    fw_action: page.goto
+    fw_param: {Page: "hotkeys"}
+    icon: btn_nextPage

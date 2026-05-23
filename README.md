@@ -62,6 +62,27 @@ Press any button and the configured action fires. Full setup, host
 dependencies (X11 vs Wayland), and the systemd autostart are in
 **[docs/user/getting-started.md](docs/user/getting-started.md)**.
 
+> 💡 With the shipped examples you can also try **auto page-switch by
+> focused window** (X11 only): `cp config/focus_rules.yaml.example
+> config/focus_rules.yaml` and restart — focusing Chrome/Firefox jumps to
+> a browser page, focusing your file manager (Nautilus/Nemo/Thunar) jumps
+> to a files page. See [focus-pages.md](docs/user/focus-pages.md).
+
+> **No `uv`?** It is the recommended path (faster, manages the venv and
+> the Python version for you; install with
+> `curl -LsSf https://astral.sh/uv/install.sh | sh`), but plain
+> `pip + venv` works too:
+>
+> ```bash
+> python3 -m venv .venv
+> source .venv/bin/activate
+> pip install -e .
+> d200h bridge
+> ```
+>
+> Drop the `uv run` prefix from every command in the docs once the
+> venv is activated.
+
 ---
 
 ## Button layout
@@ -124,8 +145,7 @@ protocols — what works here will not drive a D200.
 
 If you have a **D200** (not the D200H), use
 [racerxdl/ulanzi-d200-linux](https://github.com/racerxdl/ulanzi-d200-linux)
-instead — it targets that device and is likely the better fit (it even
-includes OBS control, which this project does not).
+instead — it targets that device and is likely the better fit.
 
 Thanks to that project for the inspiration on documentation style and
 project layout. 🙏

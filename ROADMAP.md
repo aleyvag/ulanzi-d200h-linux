@@ -152,3 +152,14 @@ unless combined with lowering `brightness_device`.
 - **docs/ separation** — firmware/RE docs are now under
   [docs/developer/](docs/developer/) and user docs under
   [docs/user/](docs/user/), so a regular user only reads `docs/user/`. ✅
+
+
+---
+
+## PENDIENTE
+
+- Cambiar la documentacion para no usar uv
+- Verificar que funciona una configuracion iniciando de 0
+- Verificar que se pueden convertir los archivos y cargarlos y sin problemas
+- Limpiar los iconos para que no se tengan iconos protegidos.
+- Hacer exhaustivo el examples/ yaml para que tenga todas las cheetshet comandos y variantes y el usuario vea todas las posibilidades. Incluir stub

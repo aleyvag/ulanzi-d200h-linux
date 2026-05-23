@@ -1,20 +1,29 @@
-# Volumen, media, brillo (host y device).
+# Volume, media transport, brightness (host + device LCD).
 
 title: "Media"
 
 slots:
-  "0_0": {host_action: {type: volume, cmd: down, step: 5},  text: "Vol-"}
-  "0_1": {host_action: {type: volume, cmd: mute},           text: "Mute"}
-  "0_2": {host_action: {type: volume, cmd: up,   step: 5},  text: "Vol+"}
-  "0_3": {host_action: {type: brightness_host, cmd: down, step: 10}, text: "Bri-"}
-  "0_4": {host_action: {type: brightness_host, cmd: up,   step: 10}, text: "Bri+"}
+  "0_0": {host_action: {type: volume, cmd: down, step: 5}, icon_generate: {text: "Vol -",  color: "#6b2b8f"}}
+  "0_1": {host_action: {type: volume, cmd: mute},          icon_generate: {text: "Mute",   color: "#6b2b8f"}}
+  "0_2": {host_action: {type: volume, cmd: up,   step: 5}, icon_generate: {text: "Vol +",  color: "#6b2b8f"}}
+  "0_3": {host_action: {type: brightness_host, cmd: down, step: 10}, icon_generate: {text: "Bri -", color: "#6b2b8f"}}
+  "0_4": {host_action: {type: brightness_host, cmd: up,   step: 10}, icon_generate: {text: "Bri +", color: "#6b2b8f"}}
 
-  "1_0": {host_action: {type: media, cmd: play-pause}, text: "Play"}
-  "1_1": {host_action: {type: media, cmd: previous},   text: "Prev"}
-  "1_2": {host_action: {type: media, cmd: next},       text: "Next"}
-  "1_3": {host_action: {type: brightness_device, cmd: down, step: 10}, text: "LCD-"}
-  "1_4": {host_action: {type: brightness_device, cmd: up,   step: 10}, text: "LCD+"}
+  "1_0": {host_action: {type: media, cmd: play-pause}, icon_generate: {text: "Play",  color: "#6b2b8f"}}
+  "1_1": {host_action: {type: media, cmd: previous},   icon_generate: {text: "Prev",  color: "#6b2b8f"}}
+  "1_2": {host_action: {type: media, cmd: next},       icon_generate: {text: "Next",  color: "#6b2b8f"}}
+  "1_3": {host_action: {type: brightness_device, cmd: down, step: 10}, icon_generate: {text: "LCD -", color: "#6b2b8f"}}
+  "1_4": {host_action: {type: brightness_device, cmd: up,   step: 10}, icon_generate: {text: "LCD +", color: "#6b2b8f"}}
 
-  "2_0": {fw_action: page.goto, fw_param: {Page: "home"}, icon: btn_backToParent, text: "HOME"}
-  "2_1": {fw_action: page.goto, fw_param: {Page: "hotkeys"}, icon: btn_previousPage}
-  "2_2": {fw_action: page.goto, fw_param: {Page: "system"},  icon: btn_nextPage}
+  "2_0":
+    fw_action: page.goto
+    fw_param: {Page: "hotkeys"}
+    icon: btn_previousPage
+  "2_1":
+    fw_action: page.goto
+    fw_param: {Page: "home"}
+    icon: btn_backToParent
+  "2_2":
+    fw_action: page.goto
+    fw_param: {Page: "system"}
+    icon: btn_nextPage

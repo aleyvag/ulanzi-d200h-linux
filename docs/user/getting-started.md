@@ -47,6 +47,26 @@ the features you use:
 uv sync          # creates .venv and resolves dependencies
 ```
 
+### Alternative: plain `pip + venv` (no `uv`)
+
+`uv` is the recommended path — it is ~10× faster than pip and manages
+the venv and Python version transparently. Install it once with
+`curl -LsSf https://astral.sh/uv/install.sh | sh` and you are done.
+
+If you really cannot or do not want to install `uv`, the project is a
+regular PEP 621 package and `pip` works fine:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+```
+
+After activating the venv, drop the `uv run` prefix from every command
+below (`d200h bridge` instead of `uv run d200h bridge`). Remember to
+re-activate the venv (`source .venv/bin/activate`) in every new shell,
+or use `uv` and skip that step.
+
 ---
 
 ## 4. Run the bridge
@@ -59,6 +79,15 @@ uv run d200h status          # check ADB + HID of the device
 Press any button on the D200H and the configured action fires on the
 host. By default the bridge loads the pages in `config/pages/user/`,
 falling back to `config/pages/examples/` if that folder is empty.
+
+> 💡 **Try the auto page-switch feature (X11 only)**: with the shipped
+> examples, run
+> `cp config/focus_rules.yaml.example config/focus_rules.yaml` and
+> restart the bridge. Focusing **Chrome/Firefox/Chromium/Brave**
+> automatically jumps to the **`browser`** page (YouTube, Google,
+> tab hotkeys…); focusing **Nautilus/Nemo/Thunar/Dolphin** jumps to the
+> **`files`** page (Downloads, Documents…). Full details in
+> [focus-pages.md](focus-pages.md).
 
 Other useful commands:
 
@@ -83,24 +112,9 @@ login) and survive suspend/resume, install it as a systemd user service.
 uv run d200h install --now --linger        # write the unit + enable + linger, all in one
 ```
 
-This is enough on a clean system. If you are coming from a broken setup
-(two bridges fighting, a duplicate unit, it does not start after reboot),
-use the more defensive wrapper script instead:
-
-```bash
-./scripts/persist-daemon.sh
-```
-
-| | `d200h install --now --linger` | `./scripts/persist-daemon.sh` |
-|---|---|---|
-| Writes the unit + `enable --now` | ✓ | ✓ (delegates to the CLI) |
-| Enables `linger` | ✓ best-effort, **no sudo** | ✓ and **escalates to sudo** if needed |
-| Kills stray bridges fighting over HID | ✗ | ✓ |
-| Detects duplicate system-level units | ✗ | ✓ |
-| Prints status at the end | ✗ | ✓ |
-
-By design, `d200h install` never calls `sudo` nor kills processes — those
-two things live only in the script (the "make it work by force" wrapper).
+That writes the unit, runs `daemon-reload`, `enable --now`, and tries to
+activate `linger` **without sudo**. By design, `d200h install` never
+calls `sudo` and never kills other processes.
 
 > **Why `enable-linger`**: the unit uses
 > `WantedBy=graphical-session.target`. Without linger, the systemd user
@@ -108,6 +122,27 @@ two things live only in the script (the "make it work by force" wrapper).
 > a reboot (or in sessions that do not trigger that target) the service
 > would not start on its own. `enable-linger` keeps the user manager alive
 > from boot and guarantees autostart.
+
+If your distro requires privileges to enable linger (most do), the
+command above prints a hint and you finish manually with:
+
+```bash
+sudo loginctl enable-linger $USER
+```
+
+Check with `loginctl show-user $USER | grep Linger` — `Linger=yes` means
+the service will start on boot without a graphical login.
+
+### If something goes wrong
+
+If a previous bridge instance is fighting for `/dev/hidraw*` or you have
+a stale system-level unit, stop everything and reinstall cleanly:
+
+```bash
+systemctl --user stop d200h.service        # stop the service
+pkill -f 'd200h bridge'                    # kill any stray local bridge
+uv run d200h install --now --linger --force  # rewrite and restart
+```
 
 Verify and inspect:
 

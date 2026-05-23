@@ -1,31 +1,41 @@
-# Lanzadores de apps (focus si están abiertas, lanzan si no — wmctrl).
+# App launchers. `type: app` focuses the window if it is open, launches
+# it via `cmd` otherwise (wmctrl, X11 only — see troubleshooting.md).
 #
-# Para Flatpak, usa `flatpak run <id>` en cmd; el `match` debe coincidir
-# con el TÍTULO de la ventana (substring case-insensitive).
+# For Flatpak apps use `flatpak run <id>` in `cmd`; the `match` field is a
+# substring of the window TITLE (case-insensitive).
 
 title: "Apps"
 
 slots:
-  "0_0": {host_action: {type: app, match: "Firefox",            cmd: "firefox"},                     text: "Firefox"}
-  "0_1": {host_action: {type: app, match: "Visual Studio Code", cmd: "code"},                        text: "Code"}
-  "0_2": {host_action: {type: app, match: "Terminal",           cmd: "gnome-terminal || xterm || alacritty"}, text: "Term"}
-  "0_3": {host_action: {type: app, match: "Files",              cmd: "nautilus || thunar || dolphin"}, text: "Files"}
-  "0_4":
+  "0_0": {host_action: {type: app, match: "Firefox",            cmd: "firefox"},                                 icon_generate: {text: "Fire\nfox", color: "#1a7a7a"}}
+  "0_1": {host_action: {type: app, match: "Chrome",             cmd: "google-chrome || chromium"},               icon_generate: {text: "Chrome", color: "#1a7a7a"}}
+  "0_2": {host_action: {type: app, match: "Visual Studio Code", cmd: "code"},                                    icon_generate: {text: "Code",   color: "#1a7a7a"}}
+  "0_3": {host_action: {type: app, match: "Terminal",           cmd: "gnome-terminal || xterm || alacritty"},     icon_generate: {text: "Term",   color: "#1a7a7a"}}
+  "0_4": {host_action: {type: app, match: "Files",              cmd: "nautilus || thunar || dolphin"},            icon_generate: {text: "Files",  color: "#1a7a7a"}}
+
+  "1_0": {host_action: {type: app, match: "OBS",        cmd: "obs"},                       icon_generate: {text: "OBS",    color: "#1a7a7a"}}
+  "1_1": {host_action: {type: app, match: "Calculator", cmd: "gnome-calculator || kcalc"}, icon_generate: {text: "Calc",   color: "#1a7a7a"}}
+  "1_2": {host_action: {type: close, name: firefox},                                        icon_generate: {text: "Kill\nFF", color: "#1a7a7a"}}
+  "1_3":
     host_action:
       type: shell
       cmd: "gnome-screenshot -i 2>/dev/null || flameshot gui 2>/dev/null || spectacle"
-    text: "Snip"
-
-  "1_0": {host_action: {type: app,   match: "OBS",        cmd: "obs"},                          text: "OBS"}
-  "1_1": {host_action: {type: app,   match: "Calculator", cmd: "gnome-calculator || kcalc"},    text: "Calc"}
-  "1_2": {host_action: {type: close, name: firefox},                                             text: "KillFF"}
-  "1_3": {host_action: {type: app,   match: "Spotify",    cmd: "spotify"},                       text: "Spot"}
+    icon_generate: {text: "Snip", color: "#1a7a7a"}
   "1_4":
     host_action:
       type: shell
       cmd: "rofi -show run 2>/dev/null || ulauncher 2>/dev/null || krunner"
-    text: "Run"
+    icon_generate: {text: "Run", color: "#1a7a7a"}
 
-  "2_0": {fw_action: page.goto, fw_param: {Page: "home"},   icon: btn_backToParent, text: "HOME"}
-  "2_1": {fw_action: page.goto, fw_param: {Page: "system"}, icon: btn_previousPage}
-  "2_2": {fw_action: page.goto, fw_param: {Page: "home"},   icon: btn_nextPage}
+  "2_0":
+    fw_action: page.goto
+    fw_param: {Page: "system"}
+    icon: btn_previousPage
+  "2_1":
+    fw_action: page.goto
+    fw_param: {Page: "home"}
+    icon: btn_backToParent
+  "2_2":
+    fw_action: page.goto
+    fw_param: {Page: "browser"}
+    icon: btn_nextPage

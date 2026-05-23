@@ -679,6 +679,39 @@ def _change_page(client: hid.HidClient, ctx: BridgeContext,
     ctx.active = new_id
 
 
+def _maybe_banner_examples_loaded(page_map: dict[str, "Page"]) -> None:
+    """If the bridge is running with the shipped examples (no user pages),
+    print a visible tip about the focus-pages feature so first-time users
+    discover it. Detected by inspecting any loaded page's path.
+    """
+    if not page_map:
+        return
+    sample_path = next(iter(page_map.values())).path
+    if "examples" not in sample_path.parts:
+        return
+
+    rules_path = config.config_root() / "focus_rules.yaml"
+    example_path = config.config_root() / "focus_rules.yaml.example"
+    if rules_path.is_file() or not example_path.is_file():
+        return
+
+    for line in (
+        "",
+        "  ┌─────────────────────────────────────────────────────────────────┐",
+        "  │ Running with shipped EXAMPLE pages (config/pages/examples/).    │",
+        "  │                                                                 │",
+        "  │ TIP — auto-switch pages by focused window (X11 only):           │",
+        "  │   cp config/focus_rules.yaml.example config/focus_rules.yaml    │",
+        "  │   then restart the bridge. Focusing Chrome/Firefox jumps to     │",
+        "  │   the 'browser' page; focusing Nautilus to 'files'.             │",
+        "  │                                                                 │",
+        "  │ Build your own pages in config/pages/user/ to replace these.    │",
+        "  └─────────────────────────────────────────────────────────────────┘",
+        "",
+    ):
+        log.info(line)
+
+
 def run(*, home: Optional[str] = None) -> int:
     log.info("=== d200h bridge (HID) ===")
     check_tools()
@@ -697,6 +730,9 @@ def run(*, home: Optional[str] = None) -> int:
                      pid, len(page.slots), len(icons), len(compiled[pid]))
     except PageError as exc:
         log.error("Error compilando páginas: %s", exc); return 1
+
+    # Visible tip when running with the shipped examples (no user pages).
+    _maybe_banner_examples_loaded(page_map)
 
     page_order = sorted(page_map.keys())
     active = home or _pick_home(page_order)

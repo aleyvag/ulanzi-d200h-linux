@@ -1,37 +1,28 @@
-# Atajos de teclado universales. Cada slot es un `fw_action: system.open`
-# pasivo (Path vacío) + un `host_action: keys` ejecutado por el bridge.
-#
-# Nota: para `ctrl+c/v/s/x/z/y/a/f` podrías usar fw_action: system.open con
-# Path: ctrlc/... y que el firmware lo emita por HID Boot Keyboard (sin host).
-# Aquí los hacemos vía host_action para ilustrar la ruta general (y porque
-# si el bridge corre, ya tienes el host emitiendo igualmente).
+# Universal keyboard shortcuts. Every slot is a passive firmware slot
+# (system.open with empty Path) plus a `host_action: keys` that the bridge
+# emits via xdotool (X11) / ydotool (Wayland).
 
 title: "Hotkeys"
 
 slots:
-  "0_0": {host_action: {type: keys, keys: "ctrl+s"}, text: "Save"}
-  "0_1": {host_action: {type: keys, keys: "ctrl+c"}, text: "Copy"}
-  "0_2": {host_action: {type: keys, keys: "ctrl+v"}, text: "Paste"}
-  "0_3": {host_action: {type: keys, keys: "ctrl+z"}, text: "Undo"}
-  "0_4": {host_action: {type: keys, keys: "ctrl+shift+z"}, text: "Redo"}
+  "0_0": {host_action: {type: keys, keys: "ctrl+s"},       icon_generate: {text: "Save",    color: "#4a4a4a"}}
+  "0_1": {host_action: {type: keys, keys: "ctrl+c"},       icon_generate: {text: "Copy",    color: "#4a4a4a"}}
+  "0_2": {host_action: {type: keys, keys: "ctrl+v"},       icon_generate: {text: "Paste",   color: "#4a4a4a"}}
+  "0_3": {host_action: {type: keys, keys: "ctrl+z"},       icon_generate: {text: "Undo",    color: "#4a4a4a"}}
+  "0_4": {host_action: {type: keys, keys: "ctrl+shift+z"}, icon_generate: {text: "Redo",    color: "#4a4a4a"}}
 
-  "1_0": {host_action: {type: keys, keys: "ctrl+x"},     text: "Cut"}
-  "1_1": {host_action: {type: keys, keys: "ctrl+f"},     text: "Find"}
-  "1_2": {host_action: {type: keys, keys: "ctrl+a"},     text: "All"}
-  "1_3": {host_action: {type: keys, keys: "alt+Tab"},    text: "Alt+Tab"}
-  "1_4": {host_action: {type: keys, keys: "ctrl+t"},     text: "New tab"}
+  "1_0": {host_action: {type: keys, keys: "ctrl+x"},  icon_generate: {text: "Cut",     color: "#4a4a4a"}}
+  "1_1": {host_action: {type: keys, keys: "ctrl+f"},  icon_generate: {text: "Find",    color: "#4a4a4a"}}
+  "1_2": {host_action: {type: keys, keys: "ctrl+a"},  icon_generate: {text: "All",     color: "#4a4a4a"}}
+  "1_3": {host_action: {type: keys, keys: "alt+Tab"}, icon_generate: {text: "Alt+\nTab", color: "#4a4a4a"}}
+  "1_4": {host_action: {type: keys, keys: "ctrl+t"},  icon_generate: {text: "New\nTab",  color: "#4a4a4a"}}
 
-  # Fila nav
+  # Navigation row.
   "2_0":
     fw_action: page.goto
     fw_param: {Page: "home"}
     icon: btn_backToParent
-    text: "HOME"
   "2_1":
-    fw_action: page.goto
-    fw_param: {Page: "home"}
-    icon: btn_previousPage
-  "2_2":
     fw_action: page.goto
     fw_param: {Page: "media"}
     icon: btn_nextPage

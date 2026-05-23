@@ -1,33 +1,43 @@
-# Sesión, ventana, utilidades del DE.
+# Session, window manager and desktop utilities.
 
 title: "System"
 
 slots:
-  "0_0": {host_action: {type: system, cmd: lock},    text: "Lock"}
-  "0_1": {host_action: {type: system, cmd: suspend}, text: "Susp"}
-  "0_2": {host_action: {type: keys, keys: "super+d"},text: "Desk"}
-  "0_3": {host_action: {type: keys, keys: "alt+Tab"},text: "Wins"}
-  "0_4": {host_action: {type: keys, keys: "alt+F4"}, text: "Close"}
+  "0_0": {host_action: {type: system, cmd: lock},    icon_generate: {text: "Lock",   color: "#8b1a1a"}}
+  "0_1": {host_action: {type: system, cmd: suspend}, icon_generate: {text: "Susp",   color: "#8b1a1a"}}
+  "0_2": {host_action: {type: keys, keys: "super+d"},icon_generate: {text: "Desk",   color: "#8b1a1a"}}
+  "0_3": {host_action: {type: keys, keys: "alt+Tab"},icon_generate: {text: "Wins",   color: "#8b1a1a"}}
+  "0_4": {host_action: {type: keys, keys: "alt+F4"}, icon_generate: {text: "Close",  color: "#8b1a1a"}}
 
-  "1_0": {host_action: {type: notify, summary: "D200H", body: "System ping"}, text: "Ping"}
+  "1_0": {host_action: {type: notify, summary: "D200H", body: "System ping"}, icon_generate: {text: "Ping", color: "#8b1a1a"}}
   "1_1":
     host_action:
       type: shell
       cmd: "notify-send 'D200H' \"$(date '+%Y-%m-%d %H:%M:%S')\""
-    text: "Time"
-  "1_2": {host_action: {type: text, text: "Hola desde D200H"}, text: "Type"}
-  "1_3": {host_action: {type: url, url: "https://anthropic.com"}, text: "URL"}
+    icon_generate: {text: "Time", color: "#8b1a1a"}
+  "1_2": {host_action: {type: text, text: "Hello from D200H"},     icon_generate: {text: "Type", color: "#8b1a1a"}}
+  "1_3": {host_action: {type: url, url: "https://anthropic.com"},   icon_generate: {text: "URL",  color: "#8b1a1a"}}
   "1_4":
+    # Multi-action: shows step sequencing with delays.
     host_action:
       type: multi
       actions:
-        - {type: notify, summary: "D200H", body: "multi paso 1"}
+        - {type: notify, summary: "D200H", body: "multi step 1"}
         - {type: delay,  ms: 200}
         - {type: keys,   keys: "super"}
         - {type: delay,  ms: 200}
-        - {type: notify, summary: "D200H", body: "multi paso 2"}
-    text: "Multi"
+        - {type: notify, summary: "D200H", body: "multi step 2"}
+    icon_generate: {text: "Multi", color: "#8b1a1a"}
 
-  "2_0": {fw_action: page.goto, fw_param: {Page: "home"}, icon: btn_backToParent, text: "HOME"}
-  "2_1": {fw_action: page.goto, fw_param: {Page: "media"}, icon: btn_previousPage}
-  "2_2": {fw_action: page.goto, fw_param: {Page: "apps"},  icon: btn_nextPage}
+  "2_0":
+    fw_action: page.goto
+    fw_param: {Page: "media"}
+    icon: btn_previousPage
+  "2_1":
+    fw_action: page.goto
+    fw_param: {Page: "home"}
+    icon: btn_backToParent
+  "2_2":
+    fw_action: page.goto
+    fw_param: {Page: "apps"}
+    icon: btn_nextPage

@@ -1,0 +1,45 @@
+# FILES — shortcuts useful while a file manager (Nautilus, Files) has focus.
+#
+# Auto-focus target for Nautilus in the example focus_rules.yaml.
+#
+# `type: url` with a file:// URL or a path opens that location in the
+# default file manager (xdg-open). `type: keys` sends shortcuts to the
+# focused window (Nautilus-compatible defaults).
+
+title: "Files"
+
+slots:
+  # Row 0: quick navigation to common folders (open in the file manager).
+  "0_0": {host_action: {type: url, url: "file:///home"},         icon_generate: {text: "Home",     color: "#2d7a2d"}}
+  "0_1":
+    host_action:
+      type: shell
+      cmd: "xdg-open \"$HOME/Downloads\" 2>/dev/null || xdg-open \"$HOME/Descargas\""
+    icon_generate: {text: "Down\nloads", color: "#2d7a2d"}
+  "0_2":
+    host_action:
+      type: shell
+      cmd: "xdg-open \"$HOME/Documents\" 2>/dev/null || xdg-open \"$HOME/Documentos\""
+    icon_generate: {text: "Docs", color: "#2d7a2d"}
+  "0_3":
+    host_action:
+      type: shell
+      cmd: "xdg-open \"$HOME/Pictures\" 2>/dev/null || xdg-open \"$HOME/Imagenes\""
+    icon_generate: {text: "Pics", color: "#2d7a2d"}
+  "0_4": {host_action: {type: url, url: "file:///tmp"},          icon_generate: {text: "Tmp",      color: "#2d7a2d"}}
+
+  # Row 1: Nautilus shortcuts sent to the focused window.
+  "1_0": {host_action: {type: keys, keys: "ctrl+l"},  icon_generate: {text: "Path",    color: "#2d7a2d"}}  # type a path
+  "1_1": {host_action: {type: keys, keys: "ctrl+f"},  icon_generate: {text: "Find",    color: "#2d7a2d"}}
+  "1_2": {host_action: {type: keys, keys: "ctrl+h"},  icon_generate: {text: "Hidden",  color: "#2d7a2d"}}  # toggle hidden files
+  "1_3": {host_action: {type: keys, keys: "ctrl+n"},  icon_generate: {text: "New\nWin", color: "#2d7a2d"}}
+  "1_4": {host_action: {type: keys, keys: "ctrl+t"},  icon_generate: {text: "New\nTab", color: "#2d7a2d"}}
+
+  "2_0":
+    fw_action: page.goto
+    fw_param: {Page: "browser"}
+    icon: btn_previousPage
+  "2_1":
+    fw_action: page.goto
+    fw_param: {Page: "home"}
+    icon: btn_backToParent
