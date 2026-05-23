@@ -1,32 +1,32 @@
-# Reglas de cambio automático de página según el foco de ventana (X11).
+# Auto-switch the active page based on the focused window (X11 only).
 #
-# El bridge mira la ventana activa y, cuando su WM_CLASS coincide con
-# `match` (substring, case-insensitive), cambia a la `page` indicada.
-# Cuando ninguna regla coincide y `default` está definido, vuelve a esa
-# página. Si no hay `default`, no se cambia.
+# The bridge watches the active window and, when its WM_CLASS matches
+# `match` (substring, case-insensitive), it switches to the given `page`.
+# When no rule matches and `default` is set, it returns to that page.
+# Without `default`, no automatic switch happens.
 #
-# Para descubrir el WM_CLASS de una ventana:
-#   xprop WM_CLASS    # luego clickea la ventana objetivo
-#   ↑ devuelve algo como:  WM_CLASS(STRING) = "code", "Code"
-#   La segunda cadena ("Code") es la CLASS que usa el bridge.
+# To activate this feature: copy this file to `config/focus_rules.yaml`
+# (drop the `.example` suffix). To disable it again, delete or rename it.
 #
-# Para desactivar este feature: borrar (o renombrar) este archivo.
+# To discover a window's WM_CLASS:
+#   xprop WM_CLASS    # then click the target window
+#   ↑ returns:  WM_CLASS(STRING) = "code", "Code"
+#   The second string ("Code") is the CLASS the bridge uses.
+#
+# The rules below target the pages shipped in config/pages/examples/.
+# If you build your own pages, adjust the `page:` values to your page IDs.
 
 default: home
 
 rules:
-  # === IDE / editores ===
-  #- { match: "Code",        page: vscode }              # VS Code
-  #- { match: "Cursor",      page: vscode }              # Cursor IDE (fork de VS Code)
+  # === Web browsers → page_browser ===
+  - { match: "firefox",  page: browser }
+  - { match: "Chrome",   page: browser }    # Google Chrome
+  - { match: "Chromium", page: browser }
+  - { match: "Brave",    page: browser }
 
-  # === Browsers ===
-  - { match: "Brave",       page: brave_incog }
-  - { match: "firefox",     page: links }
-  - { match: "Chromium",    page: links }
-
-  # === Multimedia ===
-  - { match: "Spotify",     page: spotify }
-  - { match: "resolve",     page: davinci_resolve_en }  # DaVinci Resolve (binario: resolve)
-
-  # === File managers ===
-  - { match: "Nautilus",    page: files }               # GNOME Files (WM_CLASS: org.gnome.Nautilus)
+  # === File managers → page_files ===
+  - { match: "Nautilus", page: files }      # GNOME Files (WM_CLASS: org.gnome.Nautilus)
+  - { match: "Nemo",     page: files }      # Cinnamon
+  - { match: "Thunar",   page: files }      # XFCE
+  - { match: "Dolphin",  page: files }      # KDE

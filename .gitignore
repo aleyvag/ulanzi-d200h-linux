@@ -45,7 +45,8 @@ config/ulanzi_deck_profiles/
 config/secrets/*
 !config/secrets/*.example
 
-config/focus_rules.yaml
+#config/focus_rules.yaml
+config/focus_rules.yaml.own
 
 # Iconos generados al vuelo por `icon_generate:` en los YAML. Son cache
 # derivable de la spec, no source of truth.
