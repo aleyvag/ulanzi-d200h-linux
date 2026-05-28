@@ -116,6 +116,13 @@ That writes the unit, runs `daemon-reload`, `enable --now`, and tries to
 activate `linger` **without sudo**. By design, `d200h install` never
 calls `sudo` and never kills other processes.
 
+> **Note — clean environment for `host_action` launches.** The unit's
+> `ExecStart` is `uv run d200h bridge`, and `uv run` exports `VIRTUAL_ENV`.
+> So the bridge does not leak its venv into the terminals/apps it opens,
+> `bridge.run()` strips `VIRTUAL_ENV` at startup before spawning any
+> `host_action`. See
+> [troubleshooting.md](troubleshooting.md#apps-launched-from-the-deck-inherit-the-bridges-virtualenv).
+
 > **Why `enable-linger`**: the unit uses
 > `WantedBy=graphical-session.target`. Without linger, the systemd user
 > manager only lives while there is an active graphical session, so after

@@ -714,6 +714,17 @@ def _maybe_banner_examples_loaded(page_map: dict[str, "Page"]) -> None:
 
 def run(*, home: Optional[str] = None) -> int:
     log.info("=== d200h bridge (HID) ===")
+
+    # El daemon suele arrancar con `uv run d200h bridge`, y `uv run` exporta
+    # VIRTUAL_ENV al entorno del proceso. Todos los host_action se lanzan con
+    # subprocess.Popen heredando este os.environ, así que sin esto las apps y
+    # terminales que abre el deck (p.ej. wezterm) nacerían "dentro" del venv
+    # del bridge y arrastrarían el warning de uv (VIRTUAL_ENV no coincide) en
+    # otros proyectos. Lo quitamos una vez: el intérprete ya en marcha no se
+    # ve afectado, sólo dejamos de propagarlo a los procesos hijos.
+    os.environ.pop("VIRTUAL_ENV", None)
+    os.environ.pop("VIRTUAL_ENV_PROMPT", None)
+
     check_tools()
 
     # 1. Compilar páginas

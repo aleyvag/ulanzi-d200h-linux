@@ -18,6 +18,38 @@ If something does not work, start here. For YAML-specific errors
 | `type: spotify` slot opens a "Spotify disabled" popup | missing `config/secrets/spotify.yaml` or `D200H_SPOTIFY=0` | run `uv run d200h spotify-auth`, or unset the env var (see [spotify-setup.md](spotify-setup.md)) |
 | `type: spotify` slot opens a "no_device" popup | no active Spotify player | open the Spotify app (desktop/mobile/web) and press again |
 | Focus pages do not switch | running under Wayland, or no `xprop` | the feature is X11 only (see [focus-pages.md](focus-pages.md)) |
+| Terminals/apps opened from a deck button warn `VIRTUAL_ENV … does not match` or run inside the bridge's venv | the bridge was started with `uv run`, which exports `VIRTUAL_ENV` | fixed in the bridge (see [below](#apps-launched-from-the-deck-inherit-the-bridges-virtualenv)) — update and restart |
+
+---
+
+## Apps launched from the deck inherit the bridge's virtualenv
+
+The recommended autostart command is `uv run d200h bridge`, and `uv run`
+exports `VIRTUAL_ENV=<project>/.venv` into the bridge process. Every
+`host_action` (`type: shell`, `type: app`, …) is launched with
+`subprocess.Popen`, which inherits that environment — so a button that
+opens a terminal or an editor used to spawn it **inside the bridge's
+venv**. The visible symptoms:
+
+- new terminals show the project's venv as active (prompt, `which python`);
+- running `uv run …` / `python` in another project warns
+  `` `VIRTUAL_ENV=…/.venv` does not match the project environment path
+  `.venv` and will be ignored ``.
+
+**Fix (already in the code):** `bridge.run()` strips `VIRTUAL_ENV` and
+`VIRTUAL_ENV_PROMPT` from its own `os.environ` at startup, so every app it
+launches runs in a clean environment. Removing the variable does **not**
+change which interpreter the bridge itself uses — it only stops the value
+from propagating to child processes. Pull the update and restart:
+
+```bash
+systemctl --user restart d200h.service
+```
+
+> Alternative if you prefer not to rely on the scrub: install the unit
+> with an `ExecStart` that points straight at the venv binary, which never
+> exports `VIRTUAL_ENV`:
+> `uv run d200h install --force --exec-start "$PWD/.venv/bin/d200h bridge"`.
 
 ---
 
